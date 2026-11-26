@@ -1,5 +1,14 @@
 # Sources — World News, 25 November 2026 (UTC)
 
+## Pass 2 rebuild (26 Nov 2026 ~01:05 UTC)
+Same 7 stories as Pass 1 (below). Fresh AP check at ~01:00 UTC found ZERO
+stories dated 26 Nov 2026 UTC: the freshest items (Vance on Nvidia/Huang,
+Broderick's Tennessee House win, 30-year mortgage 7.21%) were all verified
+25 Nov UTC, so per the build brief the Pass 1 set was reused unchanged.
+Layout + 3 panels rebuilt (Iowa, Abrego Garcia, lead tariffs regenerated
+with CanTrust; Libya, Macy's, Wall Street, Shenzhou panels reused).
+
+## Pass 1 baseline
 Pass 1 baseline, collected 26 Nov 2026 ~00:20 UTC on the owner's instruction
 (07:16 WIB): the freshest stories available at collection time were dated
 25 November 2026 UTC — no 26 Nov UTC story had been published yet. Every
