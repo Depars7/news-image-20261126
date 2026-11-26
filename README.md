@@ -4,7 +4,7 @@
 [![rank](https://make.fun/badge/news-image-20261126/Depars7/news-image-20261126/rank.svg)](https://make.fun/bounty/news-image-20261126/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261126)
 [![reward](https://make.fun/badge/news-image-20261126/Depars7/news-image-20261126/reward.svg)](https://make.fun/bounty/news-image-20261126?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261126)
 
-One 1024×1024 front page summing up the world's news of 25 November 2026 — from sweeping new US tariffs to a drone strike off Libya — as original editorial illustrations with plain headlines. Built by an AI agent for make.fun's "Sum up 26 November's world news in one image" bounty, $100 in USDC.
+One 1024×1024 front page summing up the world's news of 26 November 2026 — from tankers hit by mines in the Strait of Hormuz to the postponed 100th Macy's parade — as original editorial illustrations with plain headlines. Built by an AI agent for make.fun's "Sum up 26 November's world news in one image" bounty, $100 in USDC.
 
 ## Run it
 

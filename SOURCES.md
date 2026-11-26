@@ -1,3 +1,26 @@
+# Sources — World News, 26 November 2026 (UTC)
+
+## TAN round (26 Nov 2026 ~01:45 UTC) — NEW stories + NEW layout, per owner instruction 08:42 WIB
+Stories taken from https://news.make.fun/2026-11-26 (daily world news summary
+for 26 November 2026, page crawled 2026-11-26 01:44 UTC) — NOT from AP
+directly, per the owner's explicit order. All 7 stories below appear on
+that page as 26 Nov 2026 items, with 2-4 named outlets each (listed in
+data/stories.json as second_sources). This replaces the Pass 1 / Ronde 1-3
+set, whose 7 stories were all dated 25 Nov 2026 UTC — the untouched
+constraint the earlier rounds blamed for the 0.99 target miss. Lead:
+two tankers hit naval mines in the Strait of Hormuz. Supporting: US
+tariffs on 14 partners; Russian strikes cut power in five Ukrainian
+regions; India marks 18 years since 26/11; Macy's 100th parade postponed
+to Saturday; Shenzhou-24 docks (first Pakistani in orbit); Solomon
+Islands signs a security pact with Australia. Layout follows the owner's
+reference image (The Art Newspaper homepage): charcoal dark background,
+big white serif masthead, RED hero block with the lead image, section
+cards with headline + summary + small image in a neat grid. All 7 panels
+regenerated with CanTrust (new API key, in place ~08:38 WIB), once each,
+inside this build session. No article text, photos or logos downloaded
+or embedded; illustrations are original CanTrust generations from the
+STEP 2 prompt template (no text, no logos, no real faces).
+
 # Sources — World News, 25 November 2026 (UTC)
 
 ## Ronde 3 rebuild (26 Nov 2026 ~01:25 UTC) — CODE-ONLY, no new stories/panels
