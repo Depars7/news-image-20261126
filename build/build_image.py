@@ -1,18 +1,22 @@
 #!/usr/bin/env python3
 """Build the 1024x1024 front page (entry.png) for make.fun news-image-20261126.
 
-Round 2 rebuild (Pass 2 build): same 7 stories as Pass 1 (all dated
-25 Nov 2026 UTC — no 26 Nov UTC story was verifiable at collection time,
-~01:05 UTC 26 Nov; see SOURCES.md). Layout reworked after a senior-designer
-critique of the Pass 1 image:
+Round 2 rebuild (Pass 3 build, 26 Nov 2026 ~01:10 UTC): same 7 stories as
+Pass 1/Ronde 1 (all dated 25 Nov 2026 UTC — fresh AP check at ~01:08 UTC
+found ZERO stories dated 26 Nov UTC; latest AP summary 4:57 p.m. EST
+25 Nov). Layout reworked after a senior-designer critique of the Ronde 1
+image at 100% and 512px:
 
-  * lead panel shorter (380px) with a one-line deck under the headline, so
-    the lead explains itself instead of only naming the event;
-  * grid tiles taller (148px) with a one-line summary under each headline,
-    so every tile carries a fact, not just a headline;
-  * headline sizes bumped (lead 54, tiles 28) for legibility at 512px;
-  * masthead date bumped to 34px — the day is the judge's first check;
-  * tile geometry rebalanced (482px tiles, 12px gutters, 24px margins).
+  * Macy's + Wall Street panels regenerated with CanTrust (2 generations,
+    the round's max) — the two weakest tiles: old Macy's balloons read as
+    vague blobs with an empty street; old Wall Street's red wedge + thin
+    chart line did not read as a recovery. New Macy's: parade avenue,
+    giant balloons, marching band, crowds, storm clouds. New Wall Street:
+    bold white V-shaped chart line plunging then climbing to a big red
+    up-arrow over a navy skyline on a sand grid.
+  * lead gradient strip deepened (200->230px, alpha 238->245) so the
+    headline lifts off the busy globe/crane boundary;
+  * tile headline 28->29px, summary 19->20px for legibility at 512px.
 
 Offline, deterministic: same assets in -> same bytes out. No network, no
 clock, no randomness. Reads the seven original illustrations from assets/
@@ -144,9 +148,9 @@ def main():
     lead_img = Image.open(os.path.join(ASSETS, lead["id"] + ".jpg")).convert("RGB")
     lead_img = ImageOps.fit(lead_img, (lw, lh), Image.LANCZOS)
     lead_img = lead_img.convert("RGBA")
-    strip_h = 200
+    strip_h = 230
     black = Image.new("RGBA", (lw, strip_h), (0, 0, 0, 255))
-    lead_img.paste(black, (0, lh - strip_h), vertical_gradient((lw, strip_h), max_alpha=238))
+    lead_img.paste(black, (0, lh - strip_h), vertical_gradient((lw, strip_h), max_alpha=245))
     page.paste(lead_img.convert("RGB"), (lx, ly))
     draw = ImageDraw.Draw(page)
     chip(draw, lx + 16, ly + 14, lead["region"].upper() + " · " +
@@ -171,9 +175,9 @@ def main():
     gx, gy = 24, 500
     tile_w, tile_h, gutter_x, gutter_y = 482, 148, 12, 10
     img_s = 148
-    tile_font = load_font(28)
+    tile_font = load_font(29)
     chip_font = load_font(21)
-    sum_font = load_font(19, bold=False)
+    sum_font = load_font(20, bold=False)
     for i, story in enumerate(rest):
         col, row = i % 2, i // 2
         tx = gx + col * (tile_w + gutter_x)
