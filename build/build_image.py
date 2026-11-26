@@ -18,6 +18,25 @@ image at 100% and 512px:
     headline lifts off the busy globe/crane boundary;
   * tile headline 28->29px, summary 19->20px for legibility at 512px.
 
+Ronde 3 rebuild (26 Nov 2026 ~01:25 UTC, code-only — CanTrust balance is
+0, helper answers 402 "Insufficient balance: need 50, have 0", so NO new
+panel was generated and no key was changed):
+  * Root cause of the Ronde 2 defect fixed: tile headlines were silently
+    cut to 2 lines (`lines[:2]`), so "Macy's parade postponed by storm"
+    wrapped to 3 lines at 29px and "storm" vanished ("postponed by...").
+    Headline_short shortened to "Macy's parade postponed", and the tile
+    renderer now auto-shrinks 29->27->25->23px until the wrap fits 2 lines
+    and FAILS LOUDLY (sys.exit) if any headline or summary still does not
+    fit, instead of truncating silently. A measurement report is printed
+    per tile.
+  * Weakest remaining panel mitigated in code: the Shenzhou station ring
+    read as a UFO/saucer at 148px, so its tile now uses a re-crop biased
+    to the rocket (relative box (0.05, 0.20, 0.65, 0.80)), cutting the
+    ring almost out and leaving rocket + flame + clouds.
+  * Stories unchanged: still the same 7 x 25 Nov UTC (fresh AP checks at
+    ~01:22 UTC found ZERO stories dated 26 Nov UTC; latest AP summary
+    still 4:16 p.m. EST 25 Nov).
+
 Offline, deterministic: same assets in -> same bytes out. No network, no
 clock, no randomness. Reads the seven original illustrations from assets/
 and the story list from data/stories.json, then composites:
@@ -80,11 +99,35 @@ LEAD_DECK = "China faces an extra 20% — duties could cover three-fifths of US 
 SUMMARIES = {
     "libya-drone-strike": "Libya vows revenge after 2 die",
     "iowa-detonation": "5 tons destroyed; no lead found",
-    "macys-parade": "First postponement in 100 years",
+    "macys-parade": "First postponement ever",
     "wall-street": "Dow tops 50,000; Nasdaq falls",
     "abrego-garcia": "Hopes to return after Trump",
     "shenzhou-24": "First foreigner aboard Tiangong",
 }
+
+
+# Per-story re-crops (relative box l, t, r, b) applied before the square fit.
+# shenzhou-24: the station ring reads as a UFO/saucer at 148px, so bias the
+# crop to the rocket (left-centre), cutting the ring almost out.
+CROP_OVERRIDES = {
+    "shenzhou-24": (0.05, 0.20, 0.65, 0.80),
+}
+
+
+def fit_headline(draw, text, max_width, sizes=(29, 27, 25, 23)):
+    """Largest size whose greedy wrap fits 2 lines; FAILS LOUDLY otherwise.
+
+    Ronde 2 silently dropped the 3rd wrapped line (`lines[:2]`), which cut
+    "storm" off the Macy's headline. Never truncate silently again.
+    Returns (font, lines).
+    """
+    for size in sizes:
+        font = load_font(size)
+        lines = wrap(draw, text, font, max_width)
+        if len(lines) <= 2:
+            return font, lines
+    sys.exit("headline does not fit in 2 lines even at %dpx: %r -> %r"
+             % (sizes[-1], text, lines))
 
 
 def wrap(draw, text, font, max_width):
@@ -175,7 +218,6 @@ def main():
     gx, gy = 24, 500
     tile_w, tile_h, gutter_x, gutter_y = 482, 148, 12, 10
     img_s = 148
-    tile_font = load_font(29)
     chip_font = load_font(21)
     sum_font = load_font(20, bold=False)
     for i, story in enumerate(rest):
@@ -183,6 +225,11 @@ def main():
         tx = gx + col * (tile_w + gutter_x)
         ty = gy + row * (tile_h + gutter_y)
         img = Image.open(os.path.join(ASSETS, story["id"] + ".jpg")).convert("RGB")
+        crop = CROP_OVERRIDES.get(story["id"])
+        if crop is not None:
+            w, h = img.size
+            img = img.crop((int(w * crop[0]), int(h * crop[1]),
+                            int(w * crop[2]), int(h * crop[3])))
         img = ImageOps.fit(img, (img_s, img_s), Image.LANCZOS)
         page.paste(img, (tx, ty))
         # thin sand frame around the illustration
@@ -192,9 +239,15 @@ def main():
         text_w = tile_w - img_s - 12
         _, ch = chip(draw, text_x, ty + 8,
                      story["region"].upper(), chip_font)
-        lines = wrap(draw, story["headline_short"], tile_font, text_w)
-        lines = lines[:2]
+        tile_font, lines = fit_headline(draw, story["headline_short"], text_w)
         summary = SUMMARIES[story["id"]]
+        if draw.textlength(summary, font=sum_font) > text_w:
+            sys.exit("summary too wide for tile: %r (%s)"
+                     % (summary, story["id"]))
+        print("tile %-16s font=%dpx lines=%d %r | summary %dpx wide, fits=%s"
+              % (story["id"], tile_font.size, len(lines), lines,
+                 int(draw.textlength(summary, font=sum_font)),
+                 draw.textlength(summary, font=sum_font) <= text_w))
         # Vertically centre the headline + summary block below the chip.
         block_h = len(lines) * 33 + 6 + 23
         avail = tile_h - 8 - ch

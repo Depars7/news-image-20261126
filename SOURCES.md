@@ -1,5 +1,21 @@
 # Sources — World News, 25 November 2026 (UTC)
 
+## Ronde 3 rebuild (26 Nov 2026 ~01:25 UTC) — CODE-ONLY, no new stories/panels
+Same 7 stories as Pass 1/Ronde 1/Ronde 2 (all 25 Nov UTC). Fresh AP checks
+at ~01:22 UTC found ZERO stories dated 26 Nov 2026 UTC (latest AP summary
+still 4:16 p.m. EST 25 Nov; search index lag ~2h), so per the round brief
+the 25 Nov set was kept. CanTrust balance is 0 (helper: 402 "Insufficient
+balance: need 50, have 0", 2 attempts, no charge) — NO panel regenerated,
+no key changed. Changes: (1) Macy's headline_short shortened to "Macy's
+parade postponed" — Ronde 2 silently cut the 3rd wrapped line, dropping
+"storm"; (2) tile renderer now auto-shrinks 29→27→25→23px to fit 2 lines
+and FAILS LOUDLY instead of truncating; the guard also caught the Macy's
+summary overflowing, shortened to "First postponement ever"; (3) Shenzhou
+tile re-cropped in code to the rocket (ring station read as a UFO at
+148px). Quality loop 2 rounds (100% + 512px): no truncation anywhere,
+all tiles legible. entry.png 745.870 byte, sha256 979140aa… (main.py 2x
+byte-identik).
+
 ## Pass 2 rebuild (26 Nov 2026 ~01:05 UTC)
 Same 7 stories as Pass 1 (below). Fresh AP check at ~01:00 UTC found ZERO
 stories dated 26 Nov 2026 UTC: the freshest items (Vance on Nvidia/Huang,
